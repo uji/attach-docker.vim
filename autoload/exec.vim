@@ -1,8 +1,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! attaco#get_containers() abort
-  let l:response = attaco#http#get('http://localhost/containers/json', {'all': 1})
+function! exec#get_containers() abort
+  let l:response = exec#http#get('http://localhost/containers/json', {'all': 1})
   if l:response.status !=# 200
     echoerr "Could not get containers from docker api server"
   else
@@ -10,8 +10,7 @@ function! attaco#get_containers() abort
   endif
 endfunction
 
-function! attaco#complete_containers(...) abort
-  attaco#get_containers()
+function! exec#complete_containers(...) abort
   return ['aaa', 'bbb']
 endfunction
 

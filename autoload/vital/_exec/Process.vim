@@ -4,7 +4,7 @@
 function! s:_SID() abort
   return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze__SID$')
 endfunction
-execute join(['function! vital#_attaco#Process#import() abort', printf("return map({'shellescape': '', 'has_vimproc': '', 'system': '', 'iconv': '', 'spawn': '', 'get_last_status': ''}, \"vital#_attaco#function('<SNR>%s_' . v:key)\")", s:_SID()), 'endfunction'], "\n")
+execute join(['function! vital#_exec#Process#import() abort', printf("return map({'shellescape': '', 'has_vimproc': '', 'system': '', 'iconv': '', 'spawn': '', 'get_last_status': ''}, \"vital#_exec#function('<SNR>%s_' . v:key)\")", s:_SID()), 'endfunction'], "\n")
 delfunction s:_SID
 " ___vital___
 " TODO: move all comments to doc file.
