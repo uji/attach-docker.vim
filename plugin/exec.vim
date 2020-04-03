@@ -10,10 +10,15 @@ endif
 let g:loaded_attach_docker = 1
 
 if has("nvim")
-  command! -nargs=1 -complete=customlist,exec#complete_containers ExecContainer :sp|:term docker attach <f-args>
+  let s:term_cmd = ':sp|:term'
 else
-  command! -nargs=1 -complete=customlist,exec#complete_containers ExecContainer :to term docker attach <f-args>
+  let s:term_cmd = ':to :term'
 endif
+
+exe 'command!' '-nargs=+' '-complete=customlist,exec#complete_containers'
+      \ get(g:, 'docker_exec_command', 'ExecContainer')
+      \ s:term_cmd 'docker' 'exec' '-it' '<f-args>'
+      \ get(g:, 'docker_shell', 'bash')
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
