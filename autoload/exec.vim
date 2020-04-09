@@ -1,24 +1,19 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! exec#get_containers() abort
-  let l:response = exec#http#get('http://localhost/containers/json', {'all': 1})
-  if l:response.status !=# 200
-    echoerr "Could not get containers from docker api server"
-    return []
-  else
-    let l:containers = json_decode(response.content)
-    let l:container_names = []
-    for container in l:containers
-      echo container.Names[0][1:]
+function! exec#select_containers(lead) abort
+  let l:container_names = []
+  let l:containers = exec#docker#get_containers()
+  for container in l:containers
+    if stridx(container.Names[0][1:], a:lead) != -1
       call add(container_names, container.Names[0][1:])
-    endfor
-    return l:container_names
-  endif
+    endif
+  endfor
+  return l:container_names
 endfunction
 
-function! exec#complete_containers(...) abort
-  return exec#get_containers()
+function! exec#complete_containers(lead, cmdline, curpos) abort
+  return exec#select_containers(a:lead)
 endfunction
 
 let &cpo = s:save_cpo
